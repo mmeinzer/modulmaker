@@ -49,22 +49,23 @@
       .filter(function(add) {
         var blur = add.offset(2, 2).in(add.sourceAlpha).gaussianBlur(4)
         add.blend(add.source, blur)
-          // not sure what this line does... may not need
         this.size('175%', '175%').move('-50%', '-50%')
       });
     return ui
   }
 
-  // function for adding a modul to the object group
-  function placeModul() {
+  function addModul() {
     // TODO: the button id could be set to the modul name eg.
-    // var modulType = this.id;
-
+    // var modulType = this.id
+    
     // TODO: this would likely be better implemented with use()
-    moduls.group().draggable().svg(tempmodul);
+    var modul = moduls.group().draggable().svg(tempmodul);
+    
+    modul.node.addEventListener('click', function(event) {
+      console.log(event.target)}, false)
   }
-
+  
   // event listeners for clicks
-  toolbox.node.addEventListener('click', placeModul);
-  document.getElementById("newButton").addEventListener('click', resetWindow);
+  toolbox.node.addEventListener('click', addModul, false);
+  document.getElementById('newButton').addEventListener('click', resetWindow, false);
 }());
