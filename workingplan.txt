@@ -1,4 +1,6 @@
 draw a wire element from the clicked header to the second clicked header
+should be able to select moduls with a click and perform actions on them
+move wires to top "layer" always
 add a way to select and delete wires
 add modul icons to toolbox ui
 add method for exporting moduls as PNG or URL

@@ -13,7 +13,7 @@
   function makeModulsGroup() {
     var moduls = draw.group();
     moduls.panZoom({
-      zoomSpeed: -7,
+      zoomSpeed: -1,  
       zoom: [1, 3]
     })
     return moduls
@@ -59,10 +59,23 @@
     // var modulType = this.id
     
     // TODO: this would likely be better implemented with use()
+    // adds the tempmodul
     var modul = moduls.group().draggable().svg(tempmodul);
     
     modul.node.addEventListener('click', function(event) {
-      console.log(event.target)}, false)
+      console.log(event.target.parentElement.getAttribute('transform'))
+      if (event.target.id === "header") {
+        addJumper(event)
+      }
+    }, false)
+  }
+  
+  // jumper will be an svg path
+  // need to form this path as a string
+  function addJumper(event) {
+    firstHeader = "M " + event.clientX + " " + event.clientY
+    pathString = firstHeader + " C 100 100 400 100 400 200"
+    moduls.group().path(pathString).fill('none').stroke({color: '#f00', width: 1.5})
   }
   
   // event listeners for clicks
