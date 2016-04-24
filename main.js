@@ -62,23 +62,26 @@
     // adds the tempmodul
     var modul = moduls.group().draggable().svg(tempmodul);
     
-    modul.node.addEventListener('click', function(event) {
-      console.log(event.target.parentElement.getAttribute('transform'))
-      if (event.target.id === "header") {
-        addJumper(event)
+    modul.click(function(event) {
+      if (event.target.className.baseVal == "header") {
+        svgElem = this
+        addJumper(event, svgElem)
       }
-    }, false)
+    })
   }
   
   // jumper will be an svg path
   // need to form this path as a string
-  function addJumper(event) {
-    firstHeader = "M " + event.clientX + " " + event.clientY
-    pathString = firstHeader + " C 100 100 400 100 400 200"
+  function addJumper(event, svgElem) {
+    startX = parseFloat(event.target.getAttribute('x')) + svgElem.transform('x') + parseFloat(event.target.getAttribute('width'))/2
+    startY = parseFloat(event.target.getAttribute('y')) + svgElem.transform('y') + parseFloat(event.target.getAttribute('height'))/2
+    startHeader = "M " + startX + " " + startY
+    endHeader = " C 100 100 400 100 400 200"
+    pathString = startHeader + endHeader
     moduls.group().path(pathString).fill('none').stroke({color: '#f00', width: 1.5})
   }
   
   // event listeners for clicks
-  toolbox.node.addEventListener('click', addModul, false);
+  toolbox.on('click', addModul, false);
   document.getElementById('newButton').addEventListener('click', resetWindow, false);
 }());
