@@ -7,3 +7,5 @@ add modul icons to toolbox ui
 add method for exporting moduls as PNG or URL
 add ability to hide toolbox
 limit wires to one per header
+make it so that moduls can't stack or overlap
+wires should show up after first click with the end point being the mouse cursor
