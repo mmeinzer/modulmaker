@@ -1,7 +1,9 @@
-draw a wire element from the clicked header to the second clicked header
+jumpers need to move with moduls when they are drug
+new moduls should appear on screen (probably drag and drop from toolbox)
 should be able to select moduls with a click and perform actions on them
 move wires to top "layer" always
 add a way to select and delete wires
 add modul icons to toolbox ui
 add method for exporting moduls as PNG or URL
 add ability to hide toolbox
+limit wires to one per header
