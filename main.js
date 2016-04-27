@@ -11,6 +11,7 @@
   var moduls = makeModulsGroup()
   var toolbox = makeToolbox()
   var clickState = {
+    target: null,
     firstClick: true,
     startX: null,
     startY: null,
@@ -34,15 +35,7 @@
       })
     }
     moduls
-      .transform({
-        scale: 1
-      })
-      .transform({
-        x: 0
-      })
-      .transform({
-        y: 0
-      })
+      .transform({scale: 1}).transform({x: 0}).transform({y: 0})
   }
 
   function makeToolbox() {
@@ -64,10 +57,14 @@
   function addModul() {    
     // TODO: this would likely be better implemented with use()
     var modul = moduls.group().draggable().svg(tempmodul) // adds the tempmodul
-    modul.click(function(event) {
+    modul.click(function(event) { // handles adding a new jumper
       if (event.target.className.baseVal == "header") {
-        console.log("1. First click? ", clickState.firstClick)
         if (clickState.firstClick){
+          clickState.target = this
+          clickState.startX = parseFloat(event.target.getAttribute('x')) + this.transform('x') + parseFloat(event.target.getAttribute('width'))/2
+          clickState.startY = parseFloat(event.target.getAttribute('y')) + this.transform('y') + parseFloat(event.target.getAttribute('height'))/2
+          clickState.firstClick = false
+        } else if (clickState.target == this) { // prevents adding a jumper when the same board is clicked twice
           clickState.startX = parseFloat(event.target.getAttribute('x')) + this.transform('x') + parseFloat(event.target.getAttribute('width'))/2
           clickState.startY = parseFloat(event.target.getAttribute('y')) + this.transform('y') + parseFloat(event.target.getAttribute('height'))/2
         } else {
@@ -77,13 +74,13 @@
             x: ((clickState.startX + clickState.endX) / 2),
             y: (((clickState.startY + clickState.endY) / 2) + Math.abs(clickState.startY - clickState.endY))
           }
-          console.log(controlPoint)
           var startHeader = "M " + clickState.startX + " " + clickState.startY + " "
           var endHeader = "Q " + controlPoint.x + " " + controlPoint.y + " " + clickState.endX + " " + clickState.endY
           var pathString = startHeader + endHeader
           moduls.group().path(pathString).fill('none').stroke({color: '#f00', width: 1.5})
+          clickState.firstClick = true
         }
-        clickState.firstClick ? clickState.firstClick = false : clickState.firstClick = true // toggle click state
+        //clickState.firstClick ? clickState.firstClick = false : clickState.firstClick = true // toggle click state
       }
     })
     // TODO: Implement update function for connected jumpers
